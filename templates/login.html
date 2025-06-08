@@ -2,8 +2,9 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş Yap</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
@@ -14,7 +15,7 @@
             <button type="submit">Giriş Yap</button>
         </form>
         <div class="links">
-            <a href="/register">Hesabın yok mu? Kayıt Ol</a> | <a href="/">Anasayfa</a>
+            <p><a href="{{ url_for('register') }}">Hesabın yok mu? Kayıt Ol</a> | <a href="{{ url_for('home') }}">Anasayfa</a></p>
         </div>
     </div>
 </body>
