@@ -1,1 +1,31 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satıcı Giriş - Sepetinyolu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Satıcı Girişi</h1>
+        <p>Lütfen kayıtlı satıcı hesabınızla giriş yapınız.</p>
+
+        <form action="{{ url_for('seller_login') }}" method="POST">
+            <label for="email">E-posta Adresi:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Şifre:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Giriş Yap</button>
+        </form>
+
+        <div class="links">
+            <a href="{{ url_for('seller_apply') }}">Satıcı Değil Misiniz? Başvurun</a> |
+            <a href="{{ url_for('home') }}">Anasayfa</a>
+        </div>
+    </div>
+</body>
+</html>
 
