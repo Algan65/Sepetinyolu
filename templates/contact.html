@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İletişim - Sepetinyolu</title>
     <link rel="stylesheet" href="/static/style.css">
     <style>
@@ -48,7 +49,12 @@
 <body>
     <div class="container">
         <h1>İletişim</h1>
-        <div class="chatbox" id="chatbox"></div>
+        <p>Bizimle iletişime geçmek için aşağıdaki formu doldurabilir ya da chat robotumuzla hızlıca yanıt alabilirsiniz.</p>
+
+        <h2>Chat Robotu (Otomatik Yanıt)</h2>
+        <div class="chatbox" id="chatbox">
+            <div class="message bot">Merhaba! Size nasıl yardımcı olabilirim?</div>
+        </div>
         <input type="text" id="userInput" placeholder="Mesajınızı yazın..." onkeydown="handleEnter(event)">
         <button onclick="sendMessage()">Gönder</button>
 
@@ -61,7 +67,7 @@
         </form>
 
         <div class="links">
-            <a href="/">Anasayfa</a> | <a href="/about">Hakkımızda</a>
+            <a href="/">Anasayfa</a> | <a href="/about">Hakkımızda</a> | <a href="/product">Ürünler</a>
         </div>
     </div>
 
