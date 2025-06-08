@@ -28,6 +28,21 @@
             background-color: #fff3cd;
             text-align: left;
         }
+        form.support-form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        form.support-form input, form.support-form textarea {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        form.support-form button {
+            width: 120px;
+            align-self: flex-end;
+        }
     </style>
 </head>
 <body>
@@ -36,6 +51,15 @@
         <div class="chatbox" id="chatbox"></div>
         <input type="text" id="userInput" placeholder="Mesajınızı yazın..." onkeydown="handleEnter(event)">
         <button onclick="sendMessage()">Gönder</button>
+
+        <h2>Destek Talebi Gönder</h2>
+        <form class="support-form" method="POST" action="/support">
+            <input type="text" name="name" placeholder="Adınız Soyadınız" required>
+            <input type="email" name="email" placeholder="E-posta Adresiniz" required>
+            <textarea name="message" rows="4" placeholder="Mesajınız" required></textarea>
+            <button type="submit">Gönder</button>
+        </form>
+
         <div class="links">
             <a href="/">Anasayfa</a> | <a href="/about">Hakkımızda</a>
         </div>
@@ -67,13 +91,15 @@
         function getBotResponse(msg) {
             msg = msg.toLowerCase();
             if (msg.includes("merhaba")) return "Merhaba! Size nasıl yardımcı olabilirim?";
-            if (msg.includes("sipariş")) return "Siparişiniz kargoya verilmiştir. Takip numarası SMS olarak gönderilmiştir.";
-            if (msg.includes("iade")) return "İade için 14 gün içinde bizimle iletişime geçebilirsiniz.";
+            if (msg.includes("sipariş")) return "Siparişiniz kargoya verilmiştir. Takip numarası SMS ile iletilecektir.";
+            if (msg.includes("iade")) return "İade işlemleri için lütfen sipariş tarihinizden itibaren 14 günü aşmayınız.";
             if (msg.includes("kargo")) return "Kargolar genellikle 1-3 iş günü içinde teslim edilir.";
-            if (msg.includes("canlı")) return "Şu an canlı destek aktif değil ama buradan yardımcı olabilirim.";
-            return "Üzgünüm, sorunu tam anlayamadım. Daha net yazabilir misiniz?";
+            if (msg.includes("canlı destek")) return "Şu an canlı destek ekibimiz çevrimdışı. Size buradan yardımcı olabilirim.";
+            if (msg.includes("ödeme")) return "Ödeme yöntemlerimiz arasında kredi kartı, havale ve kapıda ödeme mevcuttur.";
+            if (msg.includes("indirim")) return "Anlık kampanyalarımızı ana sayfadan takip edebilirsiniz.";
+            if (msg.includes("ürün nerede")) return "Sipariş takibini hesabınızdaki 'Siparişlerim' bölümünden yapabilirsiniz.";
+            return "Üzgünüm, sizi tam anlayamadım. Lütfen daha açık bir şekilde tekrar yazar mısınız?";
         }
     </script>
 </body>
 </html>
-
