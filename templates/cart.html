@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sepetim</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sepet</h1>
+        {% if cart %}
+            <div class="product-list">
+                {% for item in cart %}
+                    <div class="product">
+                        <h2>{{ item.name }}</h2>
+                        <p class="price">{{ item.price }} TL</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="empty">Henüz sepette ürün yok.</p>
+        {% endif %}
+        <div class="links">
+            <a href="/product">Alışverişe Devam Et</a>
+            <a href="/">Anasayfa</a>
+        </div>
+    </div>
+</body>
+</html>

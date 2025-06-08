@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürünler</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ürün Listesi</h1>
+        <div class="products">
+            {% for product in products %}
+            <div class="product">
+                <h2>{{ product.name }}</h2>
+                <p>Fiyat: {{ product.price }} TL</p>
+                <a href="/add_to_cart/{{ product.id }}" class="button">Sepete Ekle</a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="links">
+            <a href="/cart">Sepete Git</a> | <a href="/">Anasayfa</a>
+        </div>
+    </div>
+</body>
+</html>
