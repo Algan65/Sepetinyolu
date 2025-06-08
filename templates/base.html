@@ -1,1 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sepetinyolu{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+
+    <header>
+        <h1><a href="{{ url_for('home') }}" style="color: white; text-decoration: none;">Sepetinyolu</a></h1>
+    </header>
+
+    <nav>
+        <ul>
+            {% if 'user' in session %}
+                <li><a href="{{ url_for('dashboard') }}">Panel</a></li>
+                <li><a href="{{ url_for('product') }}">Ürünler</a></li>
+                <li><a href="{{ url_for('cart') }}">Sepetim</a></li>
+                <li><a href="{{ url_for('orders_view') }}">Siparişler</a></li>
+                <li><a href="{{ url_for('logout') }}">Çıkış Yap</a></li>
+            {% else %}
+                <li><a href="{{ url_for('register') }}">Kayıt Ol</a></li>
+                <li><a href="{{ url_for('login') }}">Giriş Yap</a></li>
+                <li><a href="{{ url_for('product') }}">Ürünler</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('about') }}">Hakkımızda</a></li>
+            <li><a href="{{ url_for('contact') }}">İletişim</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="text-align: center; padding: 20px; background-color: #343a40; color: white; margin-top: 30px;">
+        &copy; {{ now().year }} Sepetinyolu - Tüm hakları saklıdır.
+    </footer>
+
+</body>
+</html>
 
