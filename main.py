@@ -23,9 +23,9 @@ def product():
 
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
-    if 'cart' not in session:
-        session['cart'] = []
-    session['cart'].append(product_id)
+    cart = session.get('cart', [])
+    cart.append(product_id)
+    session['cart'] = cart
     return redirect(url_for('cart'))
 
 @app.route('/cart')
@@ -55,6 +55,7 @@ def login():
         for user in users:
             if user['username'] == username and user['password'] == password:
                 session['user'] = username
+                session.permanent = True
                 return redirect(url_for('dashboard'))
         return 'Hatalı kullanıcı adı veya şifre'
     return render_template('login.html')
