@@ -174,7 +174,15 @@ def seller_dashboard():
     return render_template('seller_dashboard.html', seller=seller_info)
 
 @app.route('/seller/products', methods=['GET', 'POST'])
-def seller_products():
+def seller_products_view():
+    if 'seller' not in session:
+        return redirect(url_for('seller_login'))
+
+    seller_items = [p for p in seller_products if p['seller_email'] == session['seller']]
+    return render_template('seller_products.html', products=seller_items)
+
+@app.route('/seller/add-product', methods=['GET', 'POST'])
+def seller_add_product():
     global product_counter
     if 'seller' not in session:
         return redirect(url_for('seller_login'))
@@ -182,6 +190,7 @@ def seller_products():
     if request.method == 'POST':
         name = request.form.get('name')
         price = float(request.form.get('price'))
+        category = request.form.get('category')
         description = request.form.get('description')
         seller_email = session['seller']
         product_counter += 1
@@ -189,10 +198,13 @@ def seller_products():
             "id": product_counter,
             "name": name,
             "price": price,
+            "category": category,
             "description": description,
-            "category": "Satıcı Ürünü",
             "seller_email": seller_email
         })
+        return redirect(url_for('seller_products_view'))
 
-    seller_items = [p for p in seller_products if p['seller_email'] == session['seller']]
-    return render_template('seller_products.html', products=seller_items)
+    return render_template('seller_add_product.html')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=81)
