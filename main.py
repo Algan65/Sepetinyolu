@@ -3,11 +3,13 @@ from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
 
-# Ürün listesi
+# Ürün listesi (kategori dahil)
 products = [
-    {"id": 1, "name": "Güneş Kremi", "price": 149},
-    {"id": 2, "name": "Nemlendirici", "price": 99},
-    {"id": 3, "name": "Makyaj Seti", "price": 259}
+    {"id": 1, "name": "Güneş Kremi", "price": 149, "category": "Cilt Bakımı"},
+    {"id": 2, "name": "Nemlendirici", "price": 99, "category": "Cilt Bakımı"},
+    {"id": 3, "name": "Makyaj Seti", "price": 259, "category": "Makyaj"},
+    {"id": 4, "name": "Ruj", "price": 89, "category": "Makyaj"},
+    {"id": 5, "name": "Parfüm", "price": 199, "category": "Parfüm"}
 ]
 
 # Geçici kullanıcı ve sipariş listesi
@@ -20,7 +22,13 @@ def home():
 
 @app.route('/product')
 def product():
-    return render_template('product.html', products=products)
+    kategori = request.args.get('category')
+    if kategori:
+        filtreli = [p for p in products if p['category'] == kategori]
+    else:
+        filtreli = products
+    kategoriler = sorted(set([p['category'] for p in products]))
+    return render_template('product.html', products=filtreli, categories=kategoriler, selected=kategori)
 
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
@@ -58,7 +66,7 @@ def place_order():
     })
 
     session['cart'] = []
-    return redirect(url_for('orders'))
+    return redirect(url_for('orders_view'))
 
 @app.route('/orders')
 def orders_view():
