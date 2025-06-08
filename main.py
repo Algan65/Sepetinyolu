@@ -43,6 +43,10 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        # Aynı kullanıcı varsa kayıt etme
+        for user in users:
+            if user['username'] == username:
+                return "Bu kullanıcı adı zaten alınmış."
         users.append({'username': username, 'password': password})
         return redirect(url_for('login'))
     return render_template('register.html')
