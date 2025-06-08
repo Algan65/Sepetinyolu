@@ -3,36 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Siparişlerim - Sepetinyolu</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
+        .order-box {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .order-box h2 {
+            margin-top: 0;
+            color: #0d6efd;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 15px;
         }
+
         th, td {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
             text-align: left;
         }
+
         th {
             background-color: #0d6efd;
             color: white;
         }
+
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f0f0f0;
+        }
+
+        .total {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .empty {
+            text-align: center;
+            font-size: 16px;
+            color: #888;
+            margin: 40px 0;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .links a {
+            margin: 0 10px;
+            text-decoration: none;
+            background-color: #0d6efd;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .links a:hover {
+            background-color: #0b5ed7;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Siparişlerim</h1>
+        <h1>🧾 Siparişlerim</h1>
 
         {% if orders and orders|length > 0 %}
             {% for order in orders %}
             <div class="order-box">
                 <h2>Sipariş #{{ loop.index }}</h2>
                 <p><strong>Kullanıcı:</strong> {{ order.username }}</p>
+
                 <table>
                     <thead>
                         <tr>
@@ -49,17 +100,19 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <p><strong>Toplam:</strong> {{ order.items | sum(attribute='price') }} TL</p>
-                <hr>
+
+                <div class="total">
+                    Toplam Tutar: {{ order.items | sum(attribute='price') }} TL
+                </div>
             </div>
             {% endfor %}
         {% else %}
-            <p>Henüz verilmiş bir siparişiniz bulunmamaktadır.</p>
+            <div class="empty">Henüz verilmiş bir siparişiniz bulunmamaktadır.</div>
         {% endif %}
 
         <div class="links">
-            <a href="/">Anasayfa</a> |
-            <a href="/product">Alışverişe Devam Et</a>
+            <a href="{{ url_for('home') }}">🏠 Anasayfa</a>
+            <a href="{{ url_for('product') }}">🛍️ Alışverişe Devam Et</a>
         </div>
     </div>
 </body>
