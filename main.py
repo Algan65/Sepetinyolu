@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
@@ -16,6 +17,8 @@ users = []
 orders = []
 sellers = []
 seller_products = []
+user_favorites = {}
+user_accounts = {}
 product_counter = 1000  # seller ürün ID'leri için başlangıç
 
 @app.route('/')
@@ -86,10 +89,15 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        email = request.form.get('email')
         for user in users:
             if user['username'] == username:
                 return "Bu kullanıcı adı zaten alınmış."
         users.append({'username': username, 'password': password})
+        user_accounts[username] = {
+            'email': email,
+            'registration_date': datetime.now().strftime("%Y-%m-%d")
+        }
         return redirect(url_for('login'))
     return render_template('register.html')
 
@@ -110,6 +118,42 @@ def dashboard():
     if 'user' not in session:
         return redirect(url_for('login'))
     return render_template('dashboard.html', user=session['user'])
+
+@app.route('/account')
+def account():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    account_data = user_accounts.get(session['user'], None)
+    return render_template('account.html', account_data=account_data)
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    new_password = request.form.get('new_password')
+    for user in users:
+        if user['username'] == session['user']:
+            user['password'] = new_password
+            break
+    return redirect(url_for('account'))
+
+@app.route('/favorites')
+def favorites():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    fav_ids = user_favorites.get(session['user'], [])
+    all_products = products + seller_products
+    fav_products = [p for p in all_products if p['id'] in fav_ids]
+    return render_template('favorites.html', favorites=fav_products)
+
+@app.route('/add_to_favorites/<int:product_id>')
+def add_to_favorites(product_id):
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    favs = user_favorites.setdefault(session['user'], [])
+    if product_id not in favs:
+        favs.append(product_id)
+    return redirect(url_for('favorites'))
 
 @app.route('/logout')
 def logout():
@@ -173,7 +217,7 @@ def seller_dashboard():
     seller_info = next((s for s in sellers if s['email'] == session['seller']), None)
     return render_template('seller_dashboard.html', seller=seller_info)
 
-@app.route('/seller/products', methods=['GET', 'POST'])
+@app.route('/seller/products', methods=['GET'])
 def seller_products_view():
     if 'seller' not in session:
         return redirect(url_for('seller_login'))
