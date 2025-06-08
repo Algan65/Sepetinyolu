@@ -4,10 +4,10 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
 
-# Jinja2 context'e yıl bilgisini doğrudan ver
+# Jinja2 context'e yıl bilgisini dinamik fonksiyon olarak ekle
 @app.context_processor
 def inject_year():
-    return {'now': datetime.utcnow()}
+    return {'now': datetime.utcnow}  # DİKKAT: parantez yok!
 
 # Ürün listesi (kategori dahil)
 products = [
