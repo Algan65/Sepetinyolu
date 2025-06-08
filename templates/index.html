@@ -2,20 +2,25 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anasayfa</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>
         <h1>Alışveriş Sitemize Hoş Geldiniz</h1>
     </header>
+    
     <nav>
-        <a href="/register">Kayıt Ol</a>
-        <a href="/login">Giriş Yap</a>
-        <a href="/product">Ürünleri Gör</a>
+        <ul>
+            <li><a href="{{ url_for('register') }}">Kayıt Ol</a></li>
+            <li><a href="{{ url_for('login') }}">Giriş Yap</a></li>
+            <li><a href="{{ url_for('product') }}">Ürünleri Gör</a></li>
+        </ul>
     </nav>
-    <div class="container">
+
+    <main class="container">
         <p>En iyi ürünleri en uygun fiyata alın. Alışverişe başlamak için yukarıdaki menüyü kullanın.</p>
-    </div>
+    </main>
 </body>
 </html>
