@@ -1,1 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Hesabım - Sepetimyolda{% endblock %}
 
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 30px;">
+    <h2 style="text-align: center; color: #0d6efd;">Hesap Bilgilerim</h2>
+
+    <div style="margin-top: 30px; background-color: #f9f9f9; padding: 20px; border-radius: 8px;">
+        <p><strong>Kullanıcı Adı:</strong> {{ session['user'] }}</p>
+        <p><strong>Kayıt Tarihi:</strong> {{ account_data.registration_date if account_data else "Bilinmiyor" }}</p>
+        <p><strong>Email:</strong> {{ account_data.email if account_data else "Güncellenmedi" }}</p>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <h3 style="color: #0d6efd;">Hızlı Erişim</h3>
+        <ul style="list-style: none; padding-left: 0; line-height: 2;">
+            <li><a href="{{ url_for('favorites') }}">Favorilerim</a></li>
+            <li><a href="{{ url_for('orders_view') }}">Sipariş Geçmişim</a></li>
+            <li><a href="{{ url_for('cart') }}">Sepetim</a></li>
+        </ul>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <h3 style="color: #dc3545;">Hesap İşlemleri</h3>
+        <form method="post" action="{{ url_for('change_password') }}">
+            <label>Yeni Şifre:</label><br>
+            <input type="password" name="new_password" required style="padding:8px; width:100%; margin-bottom:10px;"><br>
+            <button type="submit" style="background-color:#0d6efd; color:white; padding:10px 20px; border:none; border-radius:5px;">Şifreyi Güncelle</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
