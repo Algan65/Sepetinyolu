@@ -1,1 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Favorilerim - Sepetimyolda{% endblock %}
 
+{% block content %}
+<div class="favorites-container" style="max-width: 1000px; margin: 0 auto;">
+    <h2 style="text-align:center; color:#0d6efd; margin-bottom:30px;">Favori Ürünlerim</h2>
+
+    {% if favorites %}
+        <div style="display:flex; flex-wrap: wrap; gap:20px; justify-content:center;">
+            {% for item in favorites %}
+                <div style="border:1px solid #ddd; border-radius:8px; padding:16px; width:250px; text-align:center; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+                    <h3>{{ item.name }}</h3>
+                    <p>Kategori: {{ item.category }}</p>
+                    <p>Fiyat: {{ item.price }} TL</p>
+                    <form method="post" action="{{ url_for('remove_favorite', product_id=item.id) }}">
+                        <button type="submit" style="background-color:#dc3545; color:white; padding:8px 14px; border:none; border-radius:5px;">Favorilerden Kaldır</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center; color:gray;">Henüz favori ürününüz yok.</p>
+    {% endif %}
+</div>
+{% endblock %}
