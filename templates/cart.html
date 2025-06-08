@@ -2,8 +2,9 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sepetim</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
@@ -21,8 +22,8 @@
             <p class="empty">Henüz sepette ürün yok.</p>
         {% endif %}
         <div class="links">
-            <a href="/product">Alışverişe Devam Et</a>
-            <a href="/">Anasayfa</a>
+            <a href="{{ url_for('product') }}">Alışverişe Devam Et</a>
+            <a href="{{ url_for('home') }}">Anasayfa</a>
         </div>
     </div>
 </body>
