@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Siparişlerim - Sepetinyolu</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Siparişlerim</h1>
+
+        {% if orders and orders|length > 0 %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Sipariş ID</th>
+                    <th>Tarih</th>
+                    <th>Ürün</th>
+                    <th>Fiyat</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>{{ order.product_name }}</td>
+                    <td>{{ order.price }} TL</td>
+                    <td>{{ order.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Henüz verilmiş bir siparişiniz bulunmamaktadır.</p>
+        {% endif %}
+
+        <div class="links">
+            <a href="/">Anasayfa</a> |
+            <a href="/product">Alışverişe Devam Et</a>
+        </div>
+    </div>
+</body>
+</html>
 
