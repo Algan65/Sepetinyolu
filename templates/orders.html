@@ -10,18 +10,17 @@
             border-collapse: collapse;
             margin-top: 20px;
         }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
         th, td {
-            padding: 12px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #0d6efd;
+            color: white;
         }
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f2f2f2;
         }
     </style>
 </head>
@@ -30,29 +29,32 @@
         <h1>Siparişlerim</h1>
 
         {% if orders and orders|length > 0 %}
-        {% for order in orders %}
-            <h2>Sipariş {{ loop.index }}</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ürün</th>
-                        <th>Fiyat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in order.items %}
-                    <tr>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.price }} TL</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <p><strong>Siparişi Veren:</strong> {{ order.username }}</p>
-            <hr>
-        {% endfor %}
+            {% for order in orders %}
+            <div class="order-box">
+                <h2>Sipariş #{{ loop.index }}</h2>
+                <p><strong>Kullanıcı:</strong> {{ order.username }}</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th>Fiyat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.price }} TL</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p><strong>Toplam:</strong> {{ order.items | sum(attribute='price') }} TL</p>
+                <hr>
+            </div>
+            {% endfor %}
         {% else %}
-        <p>Henüz verilmiş bir siparişiniz bulunmamaktadır.</p>
+            <p>Henüz verilmiş bir siparişiniz bulunmamaktadır.</p>
         {% endif %}
 
         <div class="links">
