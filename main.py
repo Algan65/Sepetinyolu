@@ -4,6 +4,11 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
 
+# Jinja2'ye now() fonksiyonu ekle
+@app.context_processor
+def inject_now():
+    return {'now': datetime.utcnow()}
+
 # Ürün listesi (kategori dahil)
 products = [
     {"id": 1, "name": "Güneş Kremi", "price": 149, "category": "Cilt Bakımı", "description": ""},
@@ -19,7 +24,7 @@ sellers = []
 seller_products = []
 user_favorites = {}
 user_accounts = {}
-product_counter = 1000  # seller ürün ID'leri için başlangıç
+product_counter = 1000
 
 @app.route('/')
 def home():
