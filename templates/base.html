@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Sepetimyolda{% endblock %}</title>
+    <title>{% block title %}Sepetinyolu{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 </head>
@@ -12,7 +12,7 @@
     <header>
         <h1>
             <a href="{{ url_for('home') }}" style="color: white; text-decoration: none;">
-                Sepetimyolda
+                Sepetinyolu
             </a>
         </h1>
     </header>
@@ -24,6 +24,8 @@
                 <li><a href="{{ url_for('product') }}">Ürünler</a></li>
                 <li><a href="{{ url_for('cart') }}">Sepetim</a></li>
                 <li><a href="{{ url_for('orders_view') }}">Siparişler</a></li>
+                <li><a href="{{ url_for('favorites') }}">Favoriler</a></li>
+                <li><a href="{{ url_for('account') }}">Hesabım</a></li>
                 <li><a href="{{ url_for('logout') }}">Çıkış Yap</a></li>
             {% else %}
                 <li><a href="{{ url_for('register') }}">Kayıt Ol</a></li>
@@ -40,7 +42,7 @@
     </main>
 
     <footer style="text-align: center; padding: 20px; background-color: #343a40; color: white; margin-top: 30px;">
-        &copy; {{ now().year }} Sepetimyolda - Tüm hakları saklıdır.
+        &copy; {{ now().year }} Sepetinyolu - Tüm hakları saklıdır.
     </footer>
 
 </body>
