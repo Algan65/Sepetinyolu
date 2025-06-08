@@ -1,21 +1,25 @@
+
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
 
-# Jinja2 context'e yıl bilgisini dinamik fonksiyon olarak ekle
+# Dinamik yıl bilgisi
 @app.context_processor
 def inject_year():
-    return {'now': datetime.utcnow}  # DİKKAT: parantez yok!
+    return {'now': datetime.utcnow}
 
-# Ürün listesi (kategori dahil)
+# Ana kategoriler (sabit liste)
+main_categories = ["Kozmetik", "Elektronik", "Giyim", "Moda", "Mutfak"]
+
+# Sabit ürün listesi
 products = [
-    {"id": 1, "name": "Güneş Kremi", "price": 149, "category": "Cilt Bakımı", "description": ""},
-    {"id": 2, "name": "Nemlendirici", "price": 99, "category": "Cilt Bakımı", "description": ""},
-    {"id": 3, "name": "Makyaj Seti", "price": 259, "category": "Makyaj", "description": ""},
-    {"id": 4, "name": "Ruj", "price": 89, "category": "Makyaj", "description": ""},
-    {"id": 5, "name": "Parfüm", "price": 199, "category": "Parfüm", "description": ""}
+    {"id": 1, "name": "Güneş Kremi", "price": 149, "category": "Kozmetik", "description": ""},
+    {"id": 2, "name": "Nemlendirici", "price": 99, "category": "Kozmetik", "description": ""},
+    {"id": 3, "name": "Fondöten", "price": 259, "category": "Kozmetik", "description": ""},
+    {"id": 4, "name": "Kulaklık", "price": 399, "category": "Elektronik", "description": ""},
+    {"id": 5, "name": "Kadın Bluz", "price": 149, "category": "Giyim", "description": ""}
 ]
 
 users = []
@@ -28,15 +32,15 @@ product_counter = 1000
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    all_products = products + seller_products
+    return render_template('index.html', products=all_products, categories=main_categories)
 
 @app.route('/product')
 def product():
     kategori = request.args.get('category')
     all_products = products + seller_products
     filtreli = [p for p in all_products if p['category'] == kategori] if kategori else all_products
-    kategoriler = sorted(set([p['category'] for p in all_products]))
-    return render_template('product.html', products=filtreli, categories=kategoriler, selected=kategori)
+    return render_template('product.html', products=filtreli, categories=main_categories, selected=kategori)
 
 @app.route('/add_to_cart/<int:product_id>')
 def add_to_cart(product_id):
@@ -148,7 +152,6 @@ def support():
     print(f"Destek Talebi: {request.form.get('name')} | {request.form.get('email')} | {request.form.get('message')}")
     return redirect(url_for('contact'))
 
-# ---------- Satıcı Paneli ----------
 @app.route('/seller/apply', methods=['GET', 'POST'])
 def seller_apply():
     if request.method == 'POST':
@@ -202,7 +205,7 @@ def seller_add_product():
             "seller_email": session['seller']
         })
         return redirect(url_for('seller_products_view'))
-    return render_template('seller_add_product.html')
+    return render_template('seller_add_product.html', categories=main_categories)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=81)
