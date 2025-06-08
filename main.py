@@ -4,10 +4,10 @@ from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
 
-# Jinja2 context'e datetime nesnesini tanıt
+# Jinja2 context'e yıl bilgisini doğrudan ver
 @app.context_processor
-def inject_datetime():
-    return {'datetime': datetime}
+def inject_year():
+    return {'now': datetime.utcnow()}
 
 # Ürün listesi (kategori dahil)
 products = [
@@ -53,7 +53,6 @@ def cart():
 def place_order():
     if 'user' not in session or not session.get('cart'):
         return redirect(url_for('cart'))
-
     all_products = products + seller_products
     cart_items = [p for pid in session['cart'] for p in all_products if p['id'] == pid]
     orders.append({"username": session['user'], "items": cart_items})
@@ -149,7 +148,7 @@ def support():
     print(f"Destek Talebi: {request.form.get('name')} | {request.form.get('email')} | {request.form.get('message')}")
     return redirect(url_for('contact'))
 
-# Satıcı Paneli
+# ---------- Satıcı Paneli ----------
 @app.route('/seller/apply', methods=['GET', 'POST'])
 def seller_apply():
     if request.method == 'POST':
@@ -193,8 +192,9 @@ def seller_add_product():
     if 'seller' not in session:
         return redirect(url_for('seller_login'))
     if request.method == 'POST':
+        product_counter += 1
         seller_products.append({
-            "id": product_counter := product_counter + 1,
+            "id": product_counter,
             "name": request.form.get('name'),
             "price": float(request.form.get('price')),
             "category": request.form.get('category'),
