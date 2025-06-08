@@ -1,16 +1,24 @@
-/* Genel Ayarlar */
+/* Arka Plan Geçişi */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
+  background: linear-gradient(135deg, #00bcd4, #ffffff, #00bcd4);
+  background-size: 300% 300%;
+  animation: backgroundMove 12s ease infinite;
   color: #333;
   margin: 0;
   padding: 0;
 }
 
+@keyframes backgroundMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Başlık */
 header {
-  background-color: #00bcd4;
-  color: white;
+  background: linear-gradient(to right, #00bcd4, #ffffff);
+  color: #003c4d;
   padding: 20px;
   text-align: center;
   border-bottom: 3px solid #008fa1;
@@ -18,7 +26,7 @@ header {
 
 /* Navigasyon */
 nav {
-  background-color: #495057;
+  background-color: #00bcd4;
   padding: 10px;
   text-align: center;
 }
@@ -46,7 +54,7 @@ nav a:hover {
 
 /* Başlıklar */
 h1, h2, h3 {
-  color: #212529;
+  color: #003c4d;
   margin-bottom: 15px;
 }
 
@@ -63,7 +71,7 @@ li {
 
 /* Butonlar */
 button, .button, .button-link {
-  background-color: #0d6efd;
+  background-color: #00bcd4;
   color: white;
   padding: 10px 16px;
   border: none;
@@ -73,11 +81,11 @@ button, .button, .button-link {
   text-decoration: none;
   display: inline-block;
   font-weight: bold;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease;
 }
 
 button:hover, .button:hover, .button-link:hover {
-  background-color: #0b5ed7;
+  background-color: #0097a7;
 }
 
 /* Formlar */
@@ -143,7 +151,7 @@ form button {
 .links a {
   margin: 0 12px;
   text-decoration: none;
-  color: #0d6efd;
+  color: #00bcd4;
   font-weight: bold;
 }
 
@@ -165,7 +173,7 @@ th, td {
 }
 
 th {
-  background-color: #0d6efd;
+  background-color: #00bcd4;
   color: white;
 }
 
