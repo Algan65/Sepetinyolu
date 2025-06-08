@@ -22,34 +22,6 @@
             text-align: center;
         }
 
-        nav {
-            background-color: #f1f1f1;
-            padding: 10px 0;
-        }
-
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex-wrap: wrap;
-        }
-
-        nav ul li {
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #0d6efd;
-            font-weight: bold;
-        }
-
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-
         .hero {
             text-align: center;
             padding: 50px 20px;
@@ -61,12 +33,12 @@
         }
 
         .hero h1 {
-            font-size: 3em;
+            font-size: 2em;
             margin-bottom: 10px;
         }
 
         .hero p {
-            font-size: 1.3em;
+            font-size: 1.1em;
             color: #004d60;
         }
 
@@ -128,7 +100,32 @@
             color: white;
             text-align: center;
             padding: 20px;
-            margin-top: 40px;
+            margin-bottom: 60px;
+        }
+
+        .mobile-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+            padding: 10px 0;
+        }
+
+        .mobile-nav a {
+            text-decoration: none;
+            color: #555;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .mobile-nav a svg {
+            display: block;
+            margin: 0 auto 4px;
         }
     </style>
 </head>
@@ -137,20 +134,6 @@
     <header>
         <h1>Sepetinyolu'na Hoş Geldiniz</h1>
     </header>
-
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('register') }}">Kayıt Ol</a></li>
-            <li><a href="{{ url_for('login') }}">Giriş Yap</a></li>
-            <li><a href="{{ url_for('product') }}">Ürünler</a></li>
-            <li><a href="{{ url_for('cart') }}">Sepetim</a></li>
-            <li><a href="{{ url_for('orders_view') }}">Siparişlerim</a></li>
-            <li><a href="#">Favoriler</a></li>
-            <li><a href="#">Hesabım</a></li>
-            <li><a href="{{ url_for('about') }}">Hakkımızda</a></li>
-            <li><a href="{{ url_for('contact') }}">İletişim</a></li>
-        </ul>
-    </nav>
 
     <main class="container">
         <section class="hero">
@@ -166,20 +149,24 @@
             <h2>Kategoriler</h2>
             <div class="category-grid">
                 <div class="category-box">
-                    <h3>Cilt Bakımı</h3>
-                    <p>Krem, serum, maske</p>
+                    <h3>Kozmetik</h3>
+                    <p>Makyaj, bakım ürünleri</p>
                 </div>
                 <div class="category-box">
-                    <h3>Makyaj</h3>
-                    <p>Ruj, fondöten, palet</p>
+                    <h3>Elektronik</h3>
+                    <p>Kulaklık, şarj cihazı</p>
                 </div>
                 <div class="category-box">
-                    <h3>Güneş Ürünleri</h3>
-                    <p>Koruyucu kremler</p>
+                    <h3>Giyim</h3>
+                    <p>Elbise, tişört, pantolon</p>
                 </div>
                 <div class="category-box">
-                    <h3>Yeni Gelenler</h3>
-                    <p>Trend ürünleri keşfet</p>
+                    <h3>Moda</h3>
+                    <p>Yeni sezon trendleri</p>
+                </div>
+                <div class="category-box">
+                    <h3>Mutfak</h3>
+                    <p>Ev ürünleri ve aksesuarlar</p>
                 </div>
             </div>
         </section>
@@ -188,6 +175,33 @@
     <footer>
         &copy; {{ now().year }} Sepetinyolu - Tüm hakları saklıdır.
     </footer>
+
+    <nav class="mobile-nav">
+        <a href="{{ url_for('home') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 3.293l6 6V15h-4v-4H6v4H2V9.293l6-6z"/>
+            </svg>
+            Ana Sayfa
+        </a>
+        <a href="{{ url_for('favorites') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 15s-1-.684-2-1.637C4.053 12.18 2 10.4 2 8a4 4 0 0 1 8 0c0 2.4-2.053 4.18-4 5.363C9 14.316 8 15 8 15z"/>
+            </svg>
+            Favoriler
+        </a>
+        <a href="{{ url_for('cart') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 1a1 1 0 0 1 1-1h1.11a1 1 0 0 1 .97.757L3.89 3H14a1 1 0 0 1 .97 1.243l-1.5 6A1 1 0 0 1 12.5 11H4.89l-.8 3.2a1 1 0 0 1-.97.8H1a1 1 0 0 1-1-1V1z"/>
+            </svg>
+            Sepetim
+        </a>
+        <a href="{{ url_for('account') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            </svg>
+            Hesabım
+        </a>
+    </nav>
 
 </body>
 </html>
