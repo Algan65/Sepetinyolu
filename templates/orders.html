@@ -4,34 +4,53 @@
     <meta charset="UTF-8">
     <title>Siparişlerim - Sepetinyolu</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Siparişlerim</h1>
 
         {% if orders and orders|length > 0 %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Sipariş ID</th>
-                    <th>Tarih</th>
-                    <th>Ürün</th>
-                    <th>Fiyat</th>
-                    <th>Durum</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
-                <tr>
-                    <td>{{ order.id }}</td>
-                    <td>{{ order.date }}</td>
-                    <td>{{ order.product_name }}</td>
-                    <td>{{ order.price }} TL</td>
-                    <td>{{ order.status }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% for order in orders %}
+            <h2>Sipariş {{ loop.index }}</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ürün</th>
+                        <th>Fiyat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.price }} TL</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p><strong>Siparişi Veren:</strong> {{ order.username }}</p>
+            <hr>
+        {% endfor %}
         {% else %}
         <p>Henüz verilmiş bir siparişiniz bulunmamaktadır.</p>
         {% endif %}
@@ -43,4 +62,3 @@
     </div>
 </body>
 </html>
-
