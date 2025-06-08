@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Sepetinyolu{% endblock %}</title>
+    <title>{% block title %}Sepetimyolda{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 </head>
 <body>
 
     <header>
-        <h1><a href="{{ url_for('home') }}" style="color: white; text-decoration: none;">Sepetinyolu</a></h1>
+        <h1>
+            <a href="{{ url_for('home') }}" style="color: white; text-decoration: none;">
+                Sepetimyolda
+            </a>
+        </h1>
     </header>
 
     <nav>
@@ -36,9 +40,8 @@
     </main>
 
     <footer style="text-align: center; padding: 20px; background-color: #343a40; color: white; margin-top: 30px;">
-        &copy; {{ now().year }} Sepetinyolu - Tüm hakları saklıdır.
+        &copy; {{ now().year }} Sepetimyolda - Tüm hakları saklıdır.
     </footer>
 
 </body>
 </html>
-
