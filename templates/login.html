@@ -5,15 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş Yap</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #0d6efd;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0b5ed7;
+        }
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .links a {
+            text-decoration: none;
+            color: #0d6efd;
+        }
+        .social-buttons {
+            margin-top: 10px;
+        }
+        .social-buttons button {
+            background-color: #db4437;
+            color: white;
+            border: none;
+        }
+        .social-buttons button:hover {
+            background-color: #c1351d;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Giriş Yap</h1>
+
+        <!-- Sosyal medya girişi -->
+        <div class="social-buttons">
+            <form method="GET" action="{{ url_for('social_login') }}">
+                <button type="submit">📧 Gmail ile Giriş Yap</button>
+            </form>
+        </div>
+
+        <hr>
+
+        <!-- Normal giriş -->
         <form method="POST">
             <input type="text" name="username" placeholder="Kullanıcı Adı" required>
             <input type="password" name="password" placeholder="Şifre" required>
             <button type="submit">Giriş Yap</button>
         </form>
+
         <div class="links">
             <p><a href="{{ url_for('register') }}">Hesabın yok mu? Kayıt Ol</a> | <a href="{{ url_for('home') }}">Anasayfa</a></p>
         </div>
