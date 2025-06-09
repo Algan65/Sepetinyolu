@@ -8,12 +8,14 @@ app.secret_key = 'gizli_anahtar'
 
 # Görsellerin yükleneceği klasör
 UPLOAD_FOLDER = 'static/uploads'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.context_processor
 def inject_year():
-    return {'now': datetime.utcnow}  # DİKKAT: parantez yok!
+    return {'now': datetime.utcnow}
 
 products = [
     {"id": 1, "name": "Güneş Kremi", "price": 149, "category": "Kozmetik", "description": "", "image_url": ""},
