@@ -11,48 +11,43 @@
             border-collapse: collapse;
             margin-top: 30px;
         }
+
         .product-table th, .product-table td {
             padding: 12px;
             border: 1px solid #ccc;
             text-align: left;
+            vertical-align: middle;
         }
+
         .product-table th {
             background-color: #0d6efd;
             color: white;
         }
+
         .product-table tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
+        .product-table img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
         .actions a {
             margin-right: 10px;
             color: #0d6efd;
             font-weight: bold;
             text-decoration: none;
         }
+
         .actions a:hover {
             text-decoration: underline;
         }
-        .add-form {
+
+        .links {
             margin-top: 30px;
-            background-color: #f1f1f1;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .add-form input, .add-form textarea {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-        .add-form button {
-            background-color: #0d6efd;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
         }
     </style>
 </head>
@@ -64,9 +59,10 @@
         <table class="product-table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Görsel</th>
                     <th>Ürün Adı</th>
                     <th>Fiyat</th>
+                    <th>Kategori</th>
                     <th>Açıklama</th>
                     <th>İşlemler</th>
                 </tr>
@@ -74,9 +70,16 @@
             <tbody>
                 {% for product in products %}
                 <tr>
-                    <td>{{ product.id }}</td>
+                    <td>
+                        {% if product.image_url %}
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='default-product.png') }}" alt="Görsel Yok">
+                        {% endif %}
+                    </td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }} TL</td>
+                    <td>{{ product.category }}</td>
                     <td>{{ product.description }}</td>
                     <td class="actions">
                         <a href="#">Düzenle</a>
@@ -90,20 +93,10 @@
         <p>Henüz bir ürün eklenmedi.</p>
         {% endif %}
 
-        <div class="add-form">
-            <h2>Yeni Ürün Ekle</h2>
-            <form method="POST" action="{{ url_for('seller_products') }}">
-                <input type="text" name="name" placeholder="Ürün Adı" required>
-                <input type="number" name="price" placeholder="Fiyat (TL)" required>
-                <textarea name="description" rows="3" placeholder="Açıklama" required></textarea>
-                <button type="submit">Ekle</button>
-            </form>
-        </div>
-
-        <div class="links" style="margin-top: 30px;">
+        <div class="links">
+            <a href="{{ url_for('seller_add_product') }}">+ Yeni Ürün Ekle</a> |
             <a href="{{ url_for('seller_dashboard') }}">← Satıcı Paneline Dön</a>
         </div>
     </div>
 </body>
 </html>
-
