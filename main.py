@@ -1,21 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
 
-# Jinja2 context'e yıl bilgisini dinamik fonksiyon olarak ekle
+# Görsellerin yükleneceği klasör
+UPLOAD_FOLDER = 'static/uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 @app.context_processor
 def inject_year():
     return {'now': datetime.utcnow}  # DİKKAT: parantez yok!
 
-# Ürün listesi (kategori dahil)
 products = [
-    {"id": 1, "name": "Güneş Kremi", "price": 149, "category": "Kozmetik", "description": ""},
-    {"id": 2, "name": "Nemlendirici", "price": 99, "category": "Kozmetik", "description": ""},
-    {"id": 3, "name": "Makyaj Seti", "price": 259, "category": "Kozmetik", "description": ""},
-    {"id": 4, "name": "Ruj", "price": 89, "category": "Kozmetik", "description": ""},
-    {"id": 5, "name": "Parfüm", "price": 199, "category": "Kozmetik", "description": ""}
+    {"id": 1, "name": "Güneş Kremi", "price": 149, "category": "Kozmetik", "description": "", "image_url": ""},
+    {"id": 2, "name": "Nemlendirici", "price": 99, "category": "Kozmetik", "description": "", "image_url": ""},
+    {"id": 3, "name": "Makyaj Seti", "price": 259, "category": "Kozmetik", "description": "", "image_url": ""},
+    {"id": 4, "name": "Ruj", "price": 89, "category": "Kozmetik", "description": "", "image_url": ""},
+    {"id": 5, "name": "Parfüm", "price": 199, "category": "Kozmetik", "description": "", "image_url": ""}
 ]
 
 users = []
@@ -148,7 +153,6 @@ def support():
     print(f"Destek Talebi: {request.form.get('name')} | {request.form.get('email')} | {request.form.get('message')}")
     return redirect(url_for('contact'))
 
-# ---------- Satıcı Paneli ----------
 @app.route('/seller/apply', methods=['GET', 'POST'])
 def seller_apply():
     if request.method == 'POST':
@@ -193,12 +197,23 @@ def seller_add_product():
         return redirect(url_for('seller_login'))
     if request.method == 'POST':
         product_counter += 1
+
+        image = request.files.get('image')
+        if image:
+            filename = secure_filename(f"{product_counter}_{image.filename}")
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image.save(image_path)
+            image_url = f"/static/uploads/{filename}"
+        else:
+            image_url = ""
+
         seller_products.append({
             "id": product_counter,
             "name": request.form.get('name'),
             "price": float(request.form.get('price')),
             "category": request.form.get('category'),
             "description": request.form.get('description'),
+            "image_url": image_url,
             "seller_email": session['seller']
         })
         return redirect(url_for('seller_products_view'))
