@@ -6,11 +6,8 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
 
-# Görsellerin yükleneceği klasör
 UPLOAD_FOLDER = 'static/uploads'
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.context_processor
@@ -31,6 +28,7 @@ sellers = []
 seller_products = []
 user_favorites = {}
 user_accounts = {}
+verification_codes = {}
 product_counter = 1000
 
 @app.route('/')
@@ -79,19 +77,41 @@ def register():
         username = request.form.get('username')
         if any(u['username'] == username for u in users):
             return "Bu kullanıcı adı zaten alınmış."
+
+        email = request.form.get('email')
+        code = '123456'  # Gerçek bir sistemde burada rastgele kod üretirsiniz.
+        verification_codes[username] = code
+
         users.append({'username': username, 'password': request.form.get('password')})
         user_accounts[username] = {
-            'email': request.form.get('email'),
-            'registration_date': datetime.now().strftime("%Y-%m-%d")
+            'email': email,
+            'fullname': request.form.get('fullname'),
+            'phone': request.form.get('phone'),
+            'registration_date': datetime.now().strftime("%Y-%m-%d"),
+            'verified': False
         }
-        return redirect(url_for('login'))
+        print(f"{username} doğrulama kodu: {code}")
+        return redirect(url_for('verify', username=username))
     return render_template('register.html')
+
+@app.route('/verify/<username>', methods=['GET', 'POST'])
+def verify(username):
+    if request.method == 'POST':
+        input_code = request.form.get('code')
+        if verification_codes.get(username) == input_code:
+            user_accounts[username]['verified'] = True
+            return redirect(url_for('login'))
+        else:
+            return "Doğrulama kodu yanlış."
+    return render_template('verify.html', username=username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         for u in users:
             if u['username'] == request.form.get('username') and u['password'] == request.form.get('password'):
+                if not user_accounts.get(u['username'], {}).get('verified', False):
+                    return "Hesabınız doğrulanmamış."
                 session['user'] = u['username']
                 return redirect(url_for('dashboard'))
         return 'Hatalı kullanıcı adı veya şifre'
