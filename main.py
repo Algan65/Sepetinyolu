@@ -7,7 +7,8 @@ app = Flask(__name__)
 app.secret_key = 'gizli_anahtar'
 
 UPLOAD_FOLDER = 'static/uploads'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)  # Hata veren satır güncellendi
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.context_processor
@@ -79,7 +80,7 @@ def register():
             return "Bu kullanıcı adı zaten alınmış."
 
         email = request.form.get('email')
-        code = '123456'  # Gerçek bir sistemde burada rastgele kod üretirsiniz.
+        code = '123456'
         verification_codes[username] = code
 
         users.append({'username': username, 'password': request.form.get('password')})
