@@ -5,15 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kayıt Ol</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .social-buttons button {
+            margin-top: 10px;
+            background-color: #db4437;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .social-buttons button:hover {
+            background-color: #c1351d;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Kayıt Ol</h1>
+
+        <!-- Sosyal medya ile giriş -->
+        <div class="social-buttons">
+            <form method="GET" action="{{ url_for('social_register') }}">
+                <button type="submit">📧 Gmail ile Kaydol</button>
+            </form>
+        </div>
+
+        <hr>
+
+        <!-- Manuel kayıt formu -->
         <form method="POST">
             <input type="text" name="username" placeholder="Kullanıcı Adı" required>
             <input type="password" name="password" placeholder="Şifre" required>
+            <input type="text" name="fullname" placeholder="Ad Soyad" required>
+            <input type="email" name="email" placeholder="E-posta Adresi" required>
+            <input type="text" name="phone" placeholder="Telefon Numarası" required>
             <button type="submit">Kayıt Ol</button>
         </form>
+
         <div class="links">
             <p><a href="{{ url_for('login') }}">Zaten hesabın var mı? Giriş Yap</a> | <a href="{{ url_for('home') }}">Anasayfa</a></p>
         </div>
