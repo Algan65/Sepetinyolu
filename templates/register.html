@@ -18,16 +18,36 @@
             width: 100%;
             padding: 10px;
             margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #0d6efd;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0b5ed7;
         }
         .social-buttons button {
-            margin-top: 10px;
             background-color: #db4437;
             color: white;
             border: none;
-            cursor: pointer;
         }
         .social-buttons button:hover {
             background-color: #c1351d;
+        }
+        hr {
+            margin: 20px 0;
+        }
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .links a {
+            text-decoration: none;
+            color: #0d6efd;
         }
     </style>
 </head>
@@ -35,7 +55,7 @@
     <div class="container">
         <h1>Kayıt Ol</h1>
 
-        <!-- Sosyal medya ile giriş -->
+        <!-- Sosyal medya ile kayıt -->
         <div class="social-buttons">
             <form method="GET" action="{{ url_for('social_register') }}">
                 <button type="submit">📧 Gmail ile Kaydol</button>
@@ -47,10 +67,10 @@
         <!-- Manuel kayıt formu -->
         <form method="POST">
             <input type="text" name="username" placeholder="Kullanıcı Adı" required>
-            <input type="password" name="password" placeholder="Şifre" required>
-            <input type="text" name="fullname" placeholder="Ad Soyad" required>
             <input type="email" name="email" placeholder="E-posta Adresi" required>
+            <input type="text" name="fullname" placeholder="Ad Soyad" required>
             <input type="text" name="phone" placeholder="Telefon Numarası" required>
+            <input type="password" name="password" placeholder="Şifre" required>
             <button type="submit">Kayıt Ol</button>
         </form>
 
