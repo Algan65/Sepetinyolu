@@ -8,7 +8,7 @@ app.secret_key = 'gizli_anahtar'
 
 UPLOAD_FOLDER = 'static/uploads'
 if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)  # Hata veren satır güncellendi
+    os.makedirs(UPLOAD_FOLDER)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.context_processor
@@ -76,23 +76,32 @@ def orders_view():
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
+        password = request.form.get('password')
+        fullname = request.form.get('fullname')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+
+        if not all([username, password, fullname, email, phone]):
+            return "Lütfen tüm alanları doldurun."
+
         if any(u['username'] == username for u in users):
             return "Bu kullanıcı adı zaten alınmış."
 
-        email = request.form.get('email')
         code = '123456'
         verification_codes[username] = code
 
-        users.append({'username': username, 'password': request.form.get('password')})
+        users.append({'username': username, 'password': password})
         user_accounts[username] = {
             'email': email,
-            'fullname': request.form.get('fullname'),
-            'phone': request.form.get('phone'),
+            'fullname': fullname,
+            'phone': phone,
             'registration_date': datetime.now().strftime("%Y-%m-%d"),
             'verified': False
         }
-        print(f"{username} doğrulama kodu: {code}")
+
+        print(f"{username} için doğrulama kodu: {code}")
         return redirect(url_for('verify', username=username))
+
     return render_template('register.html')
 
 @app.route('/verify/<username>', methods=['GET', 'POST'])
